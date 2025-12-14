@@ -128,10 +128,19 @@ class WDAService:
             self.logger.info("WDA check every %.1f seconds", check_interval)
         tries: int = 0
         crash_times: int = 0 # detect unrecoverable launch
+        max_crash_times = 120
 
         d = Device(self.udid)
         while not stop_event.is_set():
-            self.logger.debug("launch WDA")
+            self.logger.info(f"launch WDA")
+            self.logger.info(f"================================================================================================")
+            self.logger.info(f"================================================================================================")
+            self.logger.info(f"MANUALLY CODED HERE!!")
+            self.logger.info(f"CURRENT CRASH TIMES = {crash_times}")
+            self.logger.info(f"MONKEY PATCH IMPLEMENTED WITH CRASH TIMES = {max_crash_times}")
+            self.logger.info(f"MANUALLY CODED HERE!!")
+            self.logger.info(f"================================================================================================")
+            self.logger.info(f"================================================================================================")
             tries += 1
             
             cmds = [
@@ -152,7 +161,7 @@ class WDAService:
                 if not self._wait_ready(proc, stop_event):
                     self.logger.error("wda started failed")
                     crash_times += 1
-                    if crash_times >= 5:
+                    if crash_times >= max_crash_times:
                         break
                     continue
                 elapsed = self._wait_until_quit(proc, stop_event, check_interval=check_interval)
